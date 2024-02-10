@@ -110,19 +110,28 @@
               return new Promise(resolve => setTimeout(resolve, ms));
             }
             function createImages() {
-                var imageUrls = ["https://i.pinimg.com/originals/52/3e/9a/523e9a761d4fda9d1845692c707c0a90.png", "https://i.redd.it/tf3k7smh3u0c1.jpeg", "https://i.pinimg.com/originals/dd/18/be/dd18bec4a900af1494ed847a64e503e6.jpg", "https://i.pinimg.com/originals/bf/ff/34/bfff348f89dd38b333b9fdd3ee7b8371.png"];
+                var imageUrls = ["https://i.pinimg.com/originals/52/3e/9a/523e9a761d4fda9d1845692c707c0a90.png", "https://i.redd.it/tf3k7smh3u0c1.jpeg", "https://i.pinimg.com/originals/dd/18/be/dd18bec4a900af1494ed847a64e503e6.jpg", "4.png", "5.jpeg"];
 
                 // Array of corner positions
-                var cornerPositions = ["top-left", "top-right", "bottom-left", "bottom-right"];
+                var cornerPositions = ["top-left", "top-right", "bottom-left", "bottom-right", "centered"];
 
                 // Create and append image elements
-                for (var i = 0; i < 4; i++) {
+                for (var i = 0; i < 5; i++) {
                     var img = document.createElement("img");
                     img.src = imageUrls[i];
                     img.alt = "Image " + (i + 1);
-                    img.classList.add("corner", cornerPositions[i]);
-                    img.style.width = "43%";
-                    img.style.height = "43%";
+                    if (i != 4) {
+                        img.classList.add("corner", cornerPositions[i]);
+                        img.style.width = "50%";
+                        img.style.zIndex = -1;
+                        img.style.height = "30%";
+                    } else {
+                        img.classList.add("corner", cornerPositions[i]);
+                        img.style.width = "100%";
+                        img.style.maxWidth = "800px";
+                        img.style.zIndex = -1;
+                        img.style.height = "40%"
+                    }
                     document.body.appendChild(img);
                 }
             }
@@ -165,6 +174,8 @@
                 }
                 else if (agreement == 2) {
                     gi.setAttribute("src", "https://media1.tenor.com/m/xYqxEDwlA90AAAAC/pink-heart-hearts.gif");
+                    gi.style.width = "100%"
+                    gi.style.height = "100%";
                     question.remove();
                     yesElem.remove();
                     noElem.remove();
@@ -180,6 +191,7 @@
                         createImages();
                         let new_question = document.createElement("h1");
                         new_question.innerHTML = "us?";
+                        new_question.style.backgroundColor = "white";
                         new_question.id = "question";
                         question = new_question
                         doc.insertBefore(new_question, document.getElementById("mf"));
