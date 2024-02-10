@@ -19,7 +19,6 @@
                 justify-content: center;
                 align-items: center;
                 flex-direction: column;
-                height: 640px;
             }
             img {
                 width: 150px;
@@ -70,6 +69,11 @@
                 bottom: 0;
                 right: 0;
             }
+            #mf {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
              button {
               background-color: #ca1397; /* Green */
               border: none;
@@ -81,15 +85,25 @@
               display: inline-block;
               font-size: 16px;
             }
+            .do {
+              flex-direction: column;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              text-align: center;
+              min-height: 100vh;
+            }
         </style>
     </head>
     <body>
-        <img id="gif" src="https://media.tenor.com/exRZ3es-yb8AAAAd/maxwell-maxwell-cat.gif" alt="cat">
-        <h3 id="question">will you be my valentine</h3>
-        <form id="mf">
-            <button type="button" id="yes" onclick="yesClicked()">YES</button>
-            <button type="button" id="no" onclick="noClicked()">no</button>
-        </form>
+        <div class="do" id="doc">
+            <img id="gif" src="https://media.tenor.com/exRZ3es-yb8AAAAd/maxwell-maxwell-cat.gif" alt="cat">
+            <h3 id="question">will you be my valentine</h3>
+            <form id="mf">
+                <button type="button" id="yes" onclick="yesClicked()">YES</button>
+                <button type="button" id="no" onclick="noClicked()">no</button>
+            </form>
+        </div>
 
         <script>
             function sleep(ms) {
@@ -107,6 +121,8 @@
                     img.src = imageUrls[i];
                     img.alt = "Image " + (i + 1);
                     img.classList.add("corner", cornerPositions[i]);
+                    img.style.width = "400px";
+                    img.style.height = "400px";
                     document.body.appendChild(img);
                 }
             }
@@ -123,7 +139,8 @@
             const yesElem = document.getElementById('yes');
             const noElem = document.getElementById('no');
             const gi = document.getElementById('gif');
-            const question = document.getElementById('question');
+            const doc = document.getElementById('doc');
+            var question = document.getElementById('question');
             var noCounter = 0;
             var agreement = 0;
 
@@ -135,7 +152,7 @@
                 }
                 else if (agreement == 1) {
                     question.innerHTML = "Are you sure?";
-                    document.getElementById("mf").insertBefore(question, yesElem);
+                    doc.insertBefore(question, document.getElementById("mf"));
                     yesElem.innerHTML = "YES!!!";
                     noElem.addEventListener("mouseover", function (event) {
                         const top = getRandomNumber(window.innerHeight - this.offsetHeight);
@@ -152,7 +169,7 @@
                     yesElem.remove();
                     noElem.remove();
                     sleep(2000).then(() => { 
-                        gi.remove()
+                        gi.remove();
                         // gi.setAttribute(
                         //     "src", 
                         //     "https://i.pinimg.com/originals/52/3e/9a/523e9a761d4fda9d1845692c707c0a90.png"
@@ -160,10 +177,14 @@
                         // document.body.style.backgroundImage = "url(https://i.pinimg.com/originals/52/3e/9a/523e9a761d4fda9d1845692c707c0a90.png)";
                         // gi.style.width = "500px";
                         // gi.style.height = "300px";
-                        createImages()
-                        question.innerHTML = "us?";
-                        document.getElementById("mf").appendChild(question);
-                        document.getElementById("mf").appendChild(yesElem)
+                        createImages();
+                        let new_question = document.createElement("h1");
+                        new_question.innerHTML = "us?";
+                        new_question.id = "question";
+                        question = new_question
+                        doc.insertBefore(new_question, document.getElementById("mf"));
+
+                        document.getElementById("mf").appendChild(yesElem);
                     });
                 }
                 else if (agreement == 3) {
@@ -175,22 +196,24 @@
                     question.remove();
                     yesElem.remove();
                     gi.setAttribute("src", "https://i.pinimg.com/originals/11/d3/5e/11d35e19d99fc7d49b67c39429176a07.jpg");
-                    document.body.appendChild(gi);
-                    let love = document.createElement("h5");
+                    doc.appendChild(gi);
+                    let love = document.createElement("h1");
                     love.innerHTML = "I <3 u !!!";
-                    document.body.appendChild(love);
+                    doc.appendChild(love);
 
                     let corner = document.createElement("p");
                     corner.innerHTML = "From: Kamila :P\nTo: Imran :D"
                     corner.classList.add("corner", "bottom-right");
-                    document.body.appendChild(corner);
+                    doc.appendChild(corner);
                 }
 
                 agreement += 1;
             }
             function noClicked() {
                 noCounter += 1;
-                yesElem.style.fontSize = `${20*noCounter}px`;
+                if (noCounter < 3) {
+                    yesElem.style.fontSize = `${20*noCounter}px`;
+                }
                 if (noCounter < noVariants.length) {
                     noElem.innerHTML = noVariants[noCounter];
                 }
